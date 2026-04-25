@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMR HR AI Readiness Assessment | TMR: Future of Work</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>emailjs.init('KioEbYMhJBCOCp5Re');</script>
+<style>
+  :root {
+    --tmr-blue:    #003F7F;
+    --tmr-dark:    #1C2242;
+    --tmr-bright:  #3498DB;
+    --tmr-teal:    #1AA8AC;
+    --tmr-coral:   #FF6B6B;
+    --tmr-gray:    #6C7A89;
+    --tmr-white:   #FFFFFF;
+    --tmr-offwhite:#FCFCFC;
+    --tmr-light:   #F0F7FF;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--tmr-dark);
+    color: var(--tmr-white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .header {
+    width: 100%;
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    background: rgba(28,34,66,0.95);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(10px);
+  }
+  .logo { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--tmr-white); }
+  .logo span { color: var(--tmr-teal); }
+  .header-tag { font-size: 11px; color: var(--tmr-gray); letter-spacing: 2px; text-transform: uppercase; }
+  .main { width: 100%; max-width: 700px; padding: 40px 24px 80px; }
+  .card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 16px;
+    padding: 40px;
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--tmr-teal); margin-bottom: 16px; }
+  .title { font-family: 'DM Serif Display', serif; font-size: 36px; line-height: 1.15; color: var(--tmr-white); margin-bottom: 16px; }
+  .title em { color: var(--tmr-teal); font-style: italic; }
+  .desc { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.7; margin-bottom: 24px; }
+  .stat-callout {
+    background: rgba(26,168,172,0.08);
+    border: 1px solid rgba(26,168,172,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.6;
+  }
+  .stat-callout strong { color: var(--tmr-teal); }
+  .pillars-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 28px; }
+  .pillar-chip {
+    background: rgba(26,168,172,0.1);
+    border: 1px solid rgba(26,168,172,0.25);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--tmr-teal);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-label {
+    font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--tmr-teal); margin-bottom: 16px;
+    padding-bottom: 10px; border-bottom: 1px solid rgba(26,168,172,0.2);
+  }
+  .field-label { font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--tmr-gray); margin-bottom: 8px; display: block; }
+  .field-input {
+    width: 100%;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 13px 16px;
+    color: var(--tmr-white);
+    font-size: 15px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    margin-bottom: 16px;
+  }
+  .field-input:focus { border-color: rgba(26,168,172,0.5); box-shadow: 0 0 0 3px rgba(26,168,172,0.08); }
+  .field-input::placeholder { color: rgba(255,255,255,0.2); }
+  select.field-input { cursor: pointer; }
+  select.field-input option { background: var(--tmr-dark); color: var(--tmr-white); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-row > div { display: flex; flex-direction: column; }
+  .form-row .field-input { margin-bottom: 0; }
+  .email-note {
+    font-size: 12px; color: rgba(255,255,255,0.35);
+    margin-top: -10px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .email-note::before { content: '✉'; font-size: 12px; }
+  .btn-primary {
+    width: 100%; background: var(--tmr-teal); color: var(--tmr-dark);
+    border: none; border-radius: 10px; padding: 15px 24px;
+    font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: background 0.2s, transform 0.1s;
+    letter-spacing: 0.3px; margin-top: 8px;
+  }
+  .btn-primary:hover { background: #17c4c9; }
+  .btn-primary:active { transform: scale(0.99); }
+  .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-secondary {
+    background: transparent; border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px; padding: 11px 20px; color: rgba(255,255,255,0.4);
+    font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer;
+    transition: border-color 0.2s, color 0.2s; letter-spacing: 1px; text-transform: uppercase;
+  }
+  .btn-secondary:hover { border-color: rgba(255,255,255,0.25); color: rgba(255,255,255,0.6); }
+  .btn-coral {
+    width: 100%; background: var(--tmr-coral); color: white;
+    border: none; border-radius: 10px; padding: 15px 24px;
+    font-size: 15px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: background 0.2s; letter-spacing: 0.3px;
+    text-decoration: none; display: block; text-align: center; margin-top: 12px;
+  }
+  .btn-coral:hover { background: #ff5252; }
+  .progress-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .progress-label { font-size: 12px; color: var(--tmr-gray); letter-spacing: 1px; text-transform: uppercase; }
+  .progress-pct { font-size: 12px; color: var(--tmr-teal); font-weight: 600; }
+  .progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; margin-bottom: 28px; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--tmr-teal), var(--tmr-bright)); border-radius: 99px; transition: width 0.4s ease; }
+  .cat-tabs { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+  .cat-tab {
+    padding: 7px 14px; border-radius: 99px; font-size: 12px; font-weight: 500;
+    border: 1px solid rgba(255,255,255,0.1); background: transparent;
+    color: rgba(255,255,255,0.4); cursor: pointer; transition: all 0.2s; font-family: 'DM Sans', sans-serif;
+  }
+  .cat-tab.active { background: rgba(26,168,172,0.15); border-color: var(--tmr-teal); color: var(--tmr-teal); }
+  .cat-tab.done { background: rgba(26,168,172,0.06); border-color: rgba(26,168,172,0.3); color: rgba(26,168,172,0.7); }
+  .question-block { margin-bottom: 28px; }
+  .question-num { font-size: 11px; color: var(--tmr-teal); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+  .question-text { font-size: 15px; line-height: 1.6; color: rgba(255,255,255,0.88); margin-bottom: 14px; }
+  .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .option-btn {
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 8px; padding: 12px 14px; color: rgba(255,255,255,0.55);
+    font-size: 13px; font-family: 'DM Sans', sans-serif; cursor: pointer;
+    text-align: left; transition: all 0.15s; line-height: 1.4;
+  }
+  .option-btn:hover { background: rgba(26,168,172,0.06); border-color: rgba(26,168,172,0.3); color: rgba(255,255,255,0.8); }
+  .option-btn.selected { background: rgba(26,168,172,0.12); border-color: var(--tmr-teal); color: var(--tmr-teal); }
+  .option-btn.unanswered { border-color: rgba(255,107,107,0.4); background: rgba(255,107,107,0.04); }
+  .error-banner { background: rgba(255,107,107,0.08); border: 1px solid rgba(255,107,107,0.25); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--tmr-coral); margin-bottom: 16px; display: none; }
+  .error-banner.show { display: block; }
+  .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 24px 0; }
+  .score-ring-wrap { text-align: center; margin: 8px 0 28px; }
+  .score-circle { width: 140px; height: 140px; border-radius: 50%; display: inline-flex; flex-direction: column; align-items: center; justify-content: center; border: 3px solid; margin-bottom: 12px; }
+  .score-num { font-family: 'DM Serif Display', serif; font-size: 44px; line-height: 1; }
+  .score-sub { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; margin-top: 4px; }
+  .score-label { font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 8px; }
+  .score-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; max-width: 480px; margin: 0 auto; }
+  .cat-bars { margin: 24px 0; }
+  .cat-bar-row { margin-bottom: 16px; }
+  .cat-bar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .cat-bar-name { font-size: 13px; color: rgba(255,255,255,0.7); }
+  .cat-bar-pct { font-size: 12px; color: var(--tmr-teal); font-weight: 600; }
+  .cat-bar-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+  .cat-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--tmr-teal), var(--tmr-bright)); }
+  .brief-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
+  .brief-badge { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; background: rgba(26,168,172,0.12); border: 1px solid rgba(26,168,172,0.3); color: var(--tmr-teal); padding: 4px 10px; border-radius: 99px; }
+  .brief-text { font-size: 15px; line-height: 1.75; color: rgba(255,255,255,0.8); white-space: pre-wrap; }
+  .email-sent-note {
+    background: rgba(26,168,172,0.08);
+    border: 1px solid rgba(26,168,172,0.2);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--tmr-teal);
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dots-loader { display: flex; gap: 6px; align-items: center; padding: 20px 0; justify-content: center; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--tmr-teal); animation: pulse 1.2s infinite; }
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%, 100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.1); } }
+  .signature { font-size: 12px; color: rgba(255,255,255,0.15); text-align: center; margin-top: 24px; letter-spacing: 1.5px; text-transform: uppercase; }
+  @media (max-width: 520px) {
+    .card { padding: 24px; }
+    .title { font-size: 28px; }
+    .options-grid { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .pillars-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="logo">TMR<span>:</span> Future of Work</div>
+  <div class="header-tag">HR AI Readiness Assessment</div>
+</header>
+<main class="main" id="app"></main>
+<script>
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwT52vHJKBD-dRp4rJNxHBPkHTqiHdpQUIg_vawk2aR1dZtE-CLs_Ux2Fz4ZkgMaBGKSA/exec';
+
+const categories = [
+  { id:"data", icon:"◈", title:"Data & Systems", questions:[
+    {id:"d1",weight:2,text:"How centralized is your HR data across systems?",options:["Fragmented across many tools","Partially centralized","Mostly in one platform","Fully unified & clean"]},
+    {id:"d2",weight:2,text:"How complete and accurate is your employee data?",options:["Significant gaps & errors","Inconsistent quality","Mostly complete","High quality & verified"]},
+    {id:"d3",weight:1,text:"Do you use data to drive HR decisions today?",options:["Rarely","Sometimes with basic metrics","Regularly with dashboards","Data-driven always"]},
+    {id:"d4",weight:1,text:"How well do your HR systems integrate with each other?",options:["No integration","Manual exports","Some APIs","Fully integrated"]},
+  ]},
+  { id:"compliance", icon:"⬡", title:"Compliance & Risk", questions:[
+    {id:"c1",weight:2,text:"How mature is your data privacy and governance framework?",options:["No formal policy","Basic policies exist","Documented & followed","Robust with audits"]},
+    {id:"c2",weight:2,text:"How prepared are you for AI-related regulatory requirements?",options:["Unaware of requirements","Aware but unprepared","Partially compliant","Fully compliant"]},
+    {id:"c3",weight:1,text:"How do you handle employee consent for data use?",options:["No formal process","Ad hoc basis","Documented process","Automated & auditable"]},
+    {id:"c4",weight:1,text:"Do you have an AI ethics or responsible use policy?",options:["No","In development","Informal guidelines","Formal policy in place"]},
+  ]},
+  { id:"people", icon:"◎", title:"People & Culture", questions:[
+    {id:"p1",weight:2,text:"How does leadership view AI investment in HR?",options:["Skeptical/resistant","Cautiously interested","Supportive","Actively championing"]},
+    {id:"p2",weight:2,text:"What is the general digital literacy of your HR team?",options:["Low, needs significant upskilling","Below average","Comfortable with most tools","Tech-savvy, early adopters"]},
+    {id:"p3",weight:1,text:"How open is your organization to process change?",options:["Highly resistant","Change-averse but flexible","Accepts change with support","Embraces change"]},
+    {id:"p4",weight:1,text:"Do you have change management capabilities in-house?",options:["None","Limited","Moderate","Strong & proven"]},
+  ]},
+  { id:"process", icon:"◷", title:"Process & Strategy", questions:[
+    {id:"r1",weight:2,text:"How documented are your core HR processes?",options:["Largely undocumented","Key processes only","Most are documented","Fully documented & standardized"]},
+    {id:"r2",weight:2,text:"Where does AI fit in your HR strategy?",options:["Not considered","Vague interest","In planning stage","Clear roadmap exists"]},
+    {id:"r3",weight:1,text:"How do you handle manual/repetitive HR tasks?",options:["Mostly manual","Some automation","Significant automation","Highly automated"]},
+    {id:"r4",weight:1,text:"Have you run any AI pilots or experiments in HR?",options:["No","Considering it","1–2 pilots done","Multiple pilots, learnings captured"]},
+  ]},
+];
+
+const allQuestions = categories.flatMap(c => c.questions);
+const maxScore = allQuestions.reduce((s,q) => s + q.weight*4, 0);
+
+function getCatScore(answers, cat) {
+  let earned=0, possible=0;
+  cat.questions.forEach(q => { possible+=q.weight*4; if(answers[q.id]!==undefined) earned+=answers[q.id]*q.weight; });
+  return possible>0 ? Math.round((earned/possible)*100) : 0;
+}
+
+function getResult(pct) {
+  if(pct>=80) return {label:"AI-Ready",color:"#1AA8AC",description:"Your HR function has strong foundations for AI. You're positioned to deploy with high confidence and measurable ROI — TMR helps you move fast and avoid costly mistakes."};
+  if(pct>=60) return {label:"AI-Enabled",color:"#3498DB",description:"Solid readiness with targeted gaps. Strategic improvements in key areas will accelerate your AI transformation — the right guidance now saves months of trial and error."};
+  if(pct>=40) return {label:"AI-Adjacent",color:"#ff8c42",description:"Pockets of readiness exist but fragmentation is holding you back. Before investing in AI tools, your foundations need attention — this is exactly where TMR starts."};
+  return {label:"AI-Emerging",color:"#FF6B6B",description:"Your HR function is in early stages of AI readiness. Organizations that build foundations first see dramatically better outcomes. TMR helps you build it right."};
+}
+
+let state = {
+  step:'intro', activeCategory:0, answers:{},
+  orgName:'', role:'', headcount:'', revenue:'', zip:'', email:'',
+  showError:false, generating:false, aiInsight:'', emailSent:false,
+};
+
+function render() {
+  const app = document.getElementById('app');
+  if(state.step==='intro')      app.innerHTML = renderIntro();
+  else if(state.step==='assess')     app.innerHTML = renderAssess();
+  else if(state.step==='results')    app.innerHTML = renderResults();
+  bindEvents();
+}
+
+function renderIntro() {
+  return `
+  <div class="card">
+    <div class="eyebrow">TMR: Future of Work</div>
+    <h1 class="title">How AI-Ready Is<br>Your <em>HR Function?</em></h1>
+    <p class="desc">Take our 16-question diagnostic to benchmark your organization across four critical HR pillars. Get a personalized HR AI Readiness Brief — free and instant.</p>
+    <div class="stat-callout"><strong>Only 17% of HR professionals</strong> report their organization's AI implementation has been highly successful. — SHRM, 2026. <strong>TMR helps you become one of them.</strong></div>
+    <div class="pillars-row">
+      <div class="pillar-chip">◈ Data & Systems</div>
+      <div class="pillar-chip">⬡ Compliance & Risk</div>
+      <div class="pillar-chip">◎ People & Culture</div>
+      <div class="pillar-chip">◷ Process & Strategy</div>
+    </div>
+    <div class="divider"></div>
+    <div class="section-label">Tell Us About Your Organization</div>
+    <p style="font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px;line-height:1.6;">This helps personalize your results and contributes to TMR's HR AI Readiness benchmark research.</p>
+
+    <label class="field-label">Organization Name (optional)</label>
+    <input class="field-input" id="orgInput" placeholder="Company name" value="${esc(state.orgName)}">
+
+    <label class="field-label">Your Role</label>
+    <input class="field-input" id="roleInput" placeholder="e.g. CHRO, HR Director, VP of People" value="${esc(state.role)}">
+
+    <div class="form-row" style="margin-bottom:16px">
+      <div>
+        <label class="field-label">Organization Size</label>
+        <select class="field-input" id="headcountInput">
+          <option value="" ${!state.headcount?'selected':''}>Select headcount</option>
+          <option value="1-25" ${state.headcount==='1-25'?'selected':''}>1–25 employees</option>
+          <option value="26-100" ${state.headcount==='26-100'?'selected':''}>26–100 employees</option>
+          <option value="101-250" ${state.headcount==='101-250'?'selected':''}>101–250 employees</option>
+          <option value="251-500" ${state.headcount==='251-500'?'selected':''}>251–500 employees</option>
+          <option value="501-1000" ${state.headcount==='501-1000'?'selected':''}>501–1,000 employees</option>
+          <option value="1001+" ${state.headcount==='1001+'?'selected':''}>1,001+ employees</option>
+        </select>
+      </div>
+      <div>
+        <label class="field-label">Annual Revenue</label>
+        <select class="field-input" id="revenueInput">
+          <option value="" ${!state.revenue?'selected':''}>Select range</option>
+          <option value="Under $1M" ${state.revenue==='Under $1M'?'selected':''}>Under $1M</option>
+          <option value="$1M-$5M" ${state.revenue==='$1M-$5M'?'selected':''}>$1M – $5M</option>
+          <option value="$5M-$25M" ${state.revenue==='$5M-$25M'?'selected':''}>$5M – $25M</option>
+          <option value="$25M-$100M" ${state.revenue==='$25M-$100M'?'selected':''}>$25M – $100M</option>
+          <option value="$100M-$500M" ${state.revenue==='$100M-$500M'?'selected':''}>$100M – $500M</option>
+          <option value="$500M+" ${state.revenue==='$500M+'?'selected':''}>$500M+</option>
+        </select>
+      </div>
+    </div>
+
+    <label class="field-label">Business Zip Code (optional)</label>
+    <input class="field-input" id="zipInput" placeholder="e.g. 14604" value="${esc(state.zip)}" maxlength="10">
+
+    <div class="divider"></div>
+    <div class="section-label">Where Should We Send Your Brief?</div>
+
+    <label class="field-label">Your Email Address *</label>
+    <input class="field-input" id="emailInput" type="email" placeholder="you@company.com" value="${esc(state.email)}">
+    <div class="email-note">We'll email your personalized HR AI Readiness Brief to this address when you complete the assessment.</div>
+
+    ${state.showError ? `<div class="error-banner show">Please enter a valid email address to continue.</div>` : ''}
+
+    <button class="btn-primary" id="startBtn">Begin Assessment →</button>
+    <div class="signature">© 2026 TMR: Future of Work. All rights reserved.</div>
+  </div>`;
+}
+
+function renderAssess() {
+  const cat = categories[state.activeCategory];
+  const answered = allQuestions.filter(q => state.answers[q.id]!==undefined).length;
+  const pct = Math.round((answered/allQuestions.length)*100);
+  const catComplete = cat.questions.every(q => state.answers[q.id]!==undefined);
+  return `
+  <div class="card">
+    <div class="progress-header">
+      <span class="progress-label">Progress</span>
+      <span class="progress-pct">${answered}/${allQuestions.length} questions</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+    <div class="cat-tabs">
+      ${categories.map((c,i) => {
+        const done = c.questions.every(q => state.answers[q.id]!==undefined);
+        const active = i===state.activeCategory;
+        return `<button class="cat-tab ${active?'active':done?'done':''}" data-cat="${i}">${c.icon} ${c.title}</button>`;
+      }).join('')}
+    </div>
+    <div class="error-banner ${state.showError&&!catComplete?'show':''}">⚠ Please answer all questions in this section before continuing.</div>
+    ${cat.questions.map((q,qi) => `
+      <div class="question-block">
+        <div class="question-num">${cat.title} · Q${qi+1}</div>
+        <div class="question-text">${esc(q.text)}</div>
+        <div class="options-grid">
+          ${q.options.map((opt,vi) => `
+            <button class="option-btn ${state.answers[q.id]===vi?'selected':''} ${state.showError&&state.answers[q.id]===undefined?'unanswered':''}"
+              data-qid="${q.id}" data-val="${vi}">${esc(opt)}</button>
+          `).join('')}
+        </div>
+      </div>
+      ${qi<cat.questions.length-1?'<div class="divider"></div>':''}
+    `).join('')}
+    <div style="display:flex;gap:12px;margin-top:20px;align-items:center;">
+      ${state.activeCategory>0?`<button class="btn-secondary" id="prevCat">← Back</button>`:''}
+      <button class="btn-primary" id="nextCat" style="flex:1;margin-top:0">
+        ${state.activeCategory<categories.length-1?'Next Section →':'See My Results →'}
+      </button>
+    </div>
+  </div>`;
+}
+
+function renderResults() {
+  const totalScore = allQuestions.reduce((s,q) => s+(state.answers[q.id]||0)*q.weight, 0);
+  const pct = Math.round((totalScore/maxScore)*100);
+  const result = getResult(pct);
+  return `
+  <div class="card">
+    <div class="eyebrow">Your HR AI Readiness Results</div>
+    <div class="score-ring-wrap">
+      <div class="score-circle" style="border-color:${result.color};color:${result.color}">
+        <div class="score-num">${pct}%</div>
+        <div class="score-sub">Overall</div>
+      </div>
+      <div class="score-label" style="color:${result.color}">${result.label}</div>
+      <p class="score-desc">${result.description}</p>
+    </div>
+    <div class="divider"></div>
+    <div class="cat-bars">
+      ${categories.map(c => {
+        const s = getCatScore(state.answers,c);
+        return `<div class="cat-bar-row">
+          <div class="cat-bar-header"><span class="cat-bar-name">${c.icon} ${c.title}</span><span class="cat-bar-pct">${s}%</span></div>
+          <div class="cat-bar-track"><div class="cat-bar-fill" style="width:${s}%"></div></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="divider"></div>
+    <div style="margin:24px 0">
+      <div class="brief-header">
+        <div class="brief-badge">HR AI Readiness Brief</div>
+        ${state.orgName?`<span style="font-size:13px;color:rgba(255,255,255,0.4)">${esc(state.orgName)}</span>`:''}
+      </div>
+      ${state.generating
+        ? `<div class="dots-loader"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+           <p style="font-size:13px;color:var(--tmr-gray);text-align:center">Preparing your personalized brief…</p>`
+        : `<div class="brief-text">${esc(state.aiInsight)}</div>
+           ${state.emailSent
+             ? `<div class="email-sent-note">✓ Your brief has been emailed to ${esc(state.email)}</div>`
+             : ''
+           }
+           <a class="btn-coral" href="https://tmrfutureofwork.com/assessment-confirmation">View My Next Steps →</a>`
+      }
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <button class="btn-secondary" id="resetBtn">↺ Start Over</button>
+    </div>
+    <div class="signature">© 2026 TMR: Future of Work. All rights reserved.</div>
+  </div>`;
+}
+
+function bindEvents() {
+  const orgInput = document.getElementById('orgInput');
+  if(orgInput) orgInput.addEventListener('input', e => state.orgName=e.target.value);
+  const roleInput = document.getElementById('roleInput');
+  if(roleInput) roleInput.addEventListener('input', e => state.role=e.target.value);
+  const headcountInput = document.getElementById('headcountInput');
+  if(headcountInput) headcountInput.addEventListener('change', e => state.headcount=e.target.value);
+  const revenueInput = document.getElementById('revenueInput');
+  if(revenueInput) revenueInput.addEventListener('change', e => state.revenue=e.target.value);
+  const zipInput = document.getElementById('zipInput');
+  if(zipInput) zipInput.addEventListener('input', e => state.zip=e.target.value);
+  const emailInput = document.getElementById('emailInput');
+  if(emailInput) emailInput.addEventListener('input', e => state.email=e.target.value);
+
+  const startBtn = document.getElementById('startBtn');
+  if(startBtn) startBtn.addEventListener('click', () => {
+    if(!state.email || !/\S+@\S+\.\S+/.test(state.email)) {
+      state.showError = true; render(); return;
+    }
+    state.showError = false; state.step='assess'; state.activeCategory=0;
+    render(); window.scrollTo(0,0);
+  });
+
+  document.querySelectorAll('[data-cat]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      state.activeCategory=parseInt(e.currentTarget.dataset.cat);
+      state.showError=false; render(); window.scrollTo(0,0);
+    });
+  });
+
+  document.querySelectorAll('[data-qid]').forEach(btn => {
+    btn.addEventListener('click', e => {
+      state.answers[e.currentTarget.dataset.qid]=parseInt(e.currentTarget.dataset.val);
+      state.showError=false; render();
+    });
+  });
+
+  const nextCat = document.getElementById('nextCat');
+  if(nextCat) nextCat.addEventListener('click', () => {
+    const cat = categories[state.activeCategory];
+    const catComplete = cat.questions.every(q => state.answers[q.id]!==undefined);
+    if(!catComplete) { state.showError=true; render(); return; }
+    if(state.activeCategory<categories.length-1) {
+      state.activeCategory++; state.showError=false; render(); window.scrollTo(0,0);
+    } else {
+      state.step='results'; state.showError=false;
+      render(); window.scrollTo(0,0);
+      generateBrief();
+    }
+  });
+
+  const prevCat = document.getElementById('prevCat');
+  if(prevCat) prevCat.addEventListener('click', () => { state.activeCategory--; state.showError=false; render(); window.scrollTo(0,0); });
+
+  const resetBtn = document.getElementById('resetBtn');
+  if(resetBtn) resetBtn.addEventListener('click', () => {
+    state = { step:'intro', activeCategory:0, answers:{}, orgName:'', role:'', headcount:'', revenue:'', zip:'', email:'', showError:false, generating:false, aiInsight:'', emailSent:false };
+    render(); window.scrollTo(0,0);
+  });
+}
+
+async function generateBrief() {
+  state.generating=true; render();
+  const totalScore = allQuestions.reduce((s,q) => s+(state.answers[q.id]||0)*q.weight, 0);
+  const pct = Math.round((totalScore/maxScore)*100);
+  const result = getResult(pct);
+  const catScores = categories.map(c => `${c.title}: ${getCatScore(state.answers,c)}%`).join(', ');
+  const weakest = categories.reduce((a,b) => getCatScore(state.answers,a)<=getCatScore(state.answers,b)?a:b);
+
+  const prompt = `You are an expert HR transformation consultant at TMR: Future of Work. ${state.orgName?`"${state.orgName}"`:' An organization'}${state.role?` (contact role: ${state.role})`:''} just completed a TMR HR AI Readiness Assessment.
+
+Overall Score: ${pct}% — ${result.label}
+Category Scores: ${catScores}
+Weakest Pillar: ${weakest.title} (${getCatScore(state.answers,weakest)}%)
+${state.headcount?`Organization Size: ${state.headcount}`:''}
+${state.revenue?`Revenue Range: ${state.revenue}`:''}
+
+Write a personalized 3-paragraph HR AI Readiness Brief. No bullets, no headers. Tone: direct, confident, consultative.
+
+Paragraph 1: Acknowledge their specific readiness level honestly. Name what it means for their HR function right now.
+Paragraph 2: Identify their single most critical vulnerability based on their weakest pillar. Name the RISK of leaving it unaddressed — not the solution. Make them feel the urgency.
+Paragraph 3: A forward-looking close that positions TMR as their path forward. End with "— The TMR Team"
+
+Under 200 words. Do NOT give away the roadmap or specific action steps.`;
+
+  try {
+    const res = await fetch('/.netlify/functions/generate-brief', {
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ prompt })
+    });
+    const data = await res.json();
+    state.aiInsight = data.content?.map(b=>b.text||'').join('') || 'Unable to generate brief at this time.';
+  } catch {
+    state.aiInsight = 'Unable to generate brief at this time. Please contact us at tmrfutureofwork.com/contact-us';
+  }
+
+  state.generating = false;
+  render();
+
+  // Send email via EmailJS
+  sendResultsEmail();
+
+  // Log to Google Sheets
+  logToSheets();
+}
+
+async function sendResultsEmail() {
+  const totalScore = allQuestions.reduce((s,q) => s+(state.answers[q.id]||0)*q.weight, 0);
+  const pct = Math.round((totalScore/maxScore)*100);
+  const result = getResult(pct);
+  try {
+    await emailjs.send('tmr_assessment', 'template_vaxqsaq', {
+      email: state.email,
+      first_name: state.role || 'HR Leader',
+      company: state.orgName ? ` · ${state.orgName}` : '',
+      overall_score: pct,
+      overall_label: result.label,
+      data_systems: getCatScore(state.answers, categories[0]),
+      compliance_risk: getCatScore(state.answers, categories[1]),
+      people_culture: getCatScore(state.answers, categories[2]),
+      process_strategy: getCatScore(state.answers, categories[3]),
+      brief: state.aiInsight,
+    });
+    state.emailSent = true;
+    render();
+  } catch(e) {
+    console.log('Email send error:', e);
+  }
+}
+
+async function logToSheets() {
+  const totalScore = allQuestions.reduce((s,q) => s+(state.answers[q.id]||0)*q.weight, 0);
+  const pct = Math.round((totalScore/maxScore)*100);
+  const result = getResult(pct);
+  try {
+    await fetch(SHEET_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        timestamp: new Date().toISOString(),
+        firstName:'', lastName:'', email: state.email,
+        company: state.orgName, role: state.role,
+        headcount: state.headcount, zip: state.zip, revenue: state.revenue,
+        overallScore: pct, overallLabel: result.label,
+        dataAndSystems: getCatScore(state.answers,categories[0]),
+        complianceAndRisk: getCatScore(state.answers,categories[1]),
+        peopleAndCulture: getCatScore(state.answers,categories[2]),
+        processAndStrategy: getCatScore(state.answers,categories[3]),
+        briefUnlocked:'Yes'
+      })
+    });
+  } catch(e) { console.log('Sheet log error:',e); }
+}
+
+function esc(str) {
+  return String(str||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+render();
+</script>
+</body>
+</html>
