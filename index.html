@@ -6,7 +6,7 @@
 <title>TMR HR AI Readiness Assessment | TMR: Future of Work</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<script>emailjs.init('02jLKZHrIPYy5Gckz');</script>
+<script>emailjs.init('KioEbYMhJBCOCp5Re');</script>
 <style>
   :root {
     --tmr-blue:    #003F7F;
@@ -220,7 +220,7 @@
 </header>
 <main class="main" id="app"></main>
 <script>
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwT52vHJKBD-dRp4rJNxHBPkHTqiHdpQUIg_vawk2aR1dZtE-CLs_Ux2Fz4ZkgMaBGKSA/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbzsGs1WoneuDy-bz9N25PMAXQnhjUTrZi_lrl548x50BKw12cR-OUBoEJ7g6A-hDRuOqw/exec';
 
 const categories = [
   { id:"data", icon:"◈", title:"Data & Systems", questions:[
@@ -556,7 +556,6 @@ async function sendResultsEmail() {
       people_culture: getCatScore(state.answers, categories[2]),
       process_strategy: getCatScore(state.answers, categories[3]),
       brief: state.aiInsight,
-      bcc_email: 'assessment@tmrfutureofwork.com',
     });
     state.emailSent = true;
     render();
