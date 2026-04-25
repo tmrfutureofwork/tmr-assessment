@@ -549,7 +549,7 @@ async function sendResultsEmail() {
   const pct = Math.round((totalScore/maxScore)*100);
   const result = getResult(pct);
   try {
-    await emailjs.send('tmr_assessment', 'template_vaxqsaq', {
+    await emailjs.send('tmr_assessment_smtp', 'template_vaxqsaq', {
       email: state.email,
       first_name: state.role || 'HR Leader',
       company: state.orgName ? ` · ${state.orgName}` : '',
