@@ -556,6 +556,7 @@ async function sendResultsEmail() {
       people_culture: getCatScore(state.answers, categories[2]),
       process_strategy: getCatScore(state.answers, categories[3]),
       brief: state.aiInsight,
+      bcc_email: 'assessment@tmrfutureofwork.com',
     });
     state.emailSent = true;
     render();
