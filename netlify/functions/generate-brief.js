@@ -1,5 +1,4 @@
 exports.handler = async function(event, context) {
-  // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
@@ -12,19 +11,27 @@ exports.handler = async function(event, context) {
     };
   }
 
-  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
   try {
     const { prompt } = JSON.parse(event.body);
+    const apiKey = process.env.ANTHROPIC_KEY;
+    
+    if (!apiKey) {
+      return {
+        statusCode: 500,
+        headers: { 'Access-Control-Allow-Origin': '*' },
+        body: JSON.stringify({ error: 'API key not found' })
+      };
+    }
 
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
@@ -35,7 +42,7 @@ exports.handler = async function(event, context) {
     });
 
     const data = await response.json();
-
+    
     return {
       statusCode: 200,
       headers: {
