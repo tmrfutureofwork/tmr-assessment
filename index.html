@@ -233,7 +233,7 @@ const categories = [
     {id:"c1",weight:2,text:"How mature is your data privacy and governance framework?",options:["No formal policy","Basic policies exist","Documented & followed","Robust with audits"]},
     {id:"c2",weight:2,text:"How prepared are you for AI-related regulatory requirements?",options:["Unaware of requirements","Aware but unprepared","Partially compliant","Fully compliant"]},
     {id:"c3",weight:1,text:"How do you handle employee consent for data use?",options:["No formal process","Ad hoc basis","Documented process","Automated & auditable"]},
-    {id:"c4",weight:1,text:"Do you have an AI ethics or responsible use policy?",options:["No","In development","Informal guidelines","Formal policy in place"]},
+    {id:"c4",weight:1,text:"Do you have an AI ethics or responsible use policy?",rope:["No","In development","Informal guidelines","Formal policy in place"]},
   ]},
   { id:"people", icon:"◎", title:"People & Culture", questions:[
     {id:"p1",weight:2,text:"How does leadership view AI investment in HR?",options:["Skeptical/resistant","Cautiously interested","Supportive","Actively championing"]},
@@ -273,7 +273,7 @@ let state = {
 
 function render() {
   const app = document.getElementById('app');
-  if(state.step==='intro')      app.innerHTML = renderIntro();
+  if(state.step==='intro')           app.innerHTML = renderIntro();
   else if(state.step==='assess')     app.innerHTML = renderAssess();
   else if(state.step==='results')    app.innerHTML = renderResults();
   bindEvents();
@@ -371,7 +371,7 @@ function renderAssess() {
         <div class="question-num">${cat.title} · Q${qi+1}</div>
         <div class="question-text">${esc(q.text)}</div>
         <div class="options-grid">
-          ${q.options.map((opt,vi) => `
+          ${(q.options||q.rope||[]).map((opt,vi) => `
             <button class="option-btn ${state.answers[q.id]===vi?'selected':''} ${state.showError&&state.answers[q.id]===undefined?'unanswered':''}"
               data-qid="${q.id}" data-val="${vi}">${esc(opt)}</button>
           `).join('')}
@@ -514,13 +514,13 @@ Weakest Pillar: ${weakest.title} (${getCatScore(state.answers,weakest)}%)
 ${state.headcount?`Organization Size: ${state.headcount}`:''}
 ${state.revenue?`Revenue Range: ${state.revenue}`:''}
 
-Write a personalized 3-paragraph HR AI Readiness Brief. No bullets, no headers. Tone: direct, confident, consultative.
+Write a personalized 3-paragraph HR AI Readiness Brief. No bullets, no headers, no markdown formatting. Plain text only. Tone: direct, confident, consultative.
 
 Paragraph 1: Acknowledge their specific readiness level honestly. Name what it means for their HR function right now.
 Paragraph 2: Identify their single most critical vulnerability based on their weakest pillar. Name the RISK of leaving it unaddressed — not the solution. Make them feel the urgency.
 Paragraph 3: A forward-looking close that positions TMR as their path forward. End with "— The TMR Team"
 
-Under 200 words. Do NOT give away the roadmap or specific action steps.`;
+Under 200 words. Do NOT give away the roadmap or specific action steps. Do NOT use markdown headers or bullet points.`;
 
   try {
     const res = await fetch('/.netlify/functions/generate-brief', {
@@ -536,11 +536,7 @@ Under 200 words. Do NOT give away the roadmap or specific action steps.`;
 
   state.generating = false;
   render();
-
-  // Send email via EmailJS
   sendResultsEmail();
-
-  // Log to Google Sheets
   logToSheets();
 }
 
@@ -578,7 +574,7 @@ async function logToSheets() {
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         timestamp: new Date().toISOString(),
-        firstName:'', lastName:'', email: state.email,
+        email: state.email,
         company: state.orgName, role: state.role,
         headcount: state.headcount, zip: state.zip, revenue: state.revenue,
         overallScore: pct, overallLabel: result.label,
